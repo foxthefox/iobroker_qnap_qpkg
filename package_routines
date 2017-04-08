@@ -139,13 +139,7 @@ PKG_PRE_REMOVE="{
 # performed before the package is installed.
 ######################################################################
 #pkg_check_requirement(){
-      # check if iobroker is installed
-      IOBROKER_PACKAGE=$($CMD_GREP "\[iobro.*\]" $SYS_QPKG_CONFIG_FILE | /bin/tr '[]' '\0\0')
-      if [ "$IOBROKER_PACKAGE" != "" -a "$IOBROKER_PACKAGE" != "$QPKG_NAME" ]; then
-        # Another iobroker instance is already installed
-        err_log "Another iobroker instance ($IOBROKER_PACKAGE) is already installed. Uninstall it first."
-      fi
-}
+#}
 #
 ######################################################################
 # Define any package specific operations that shall be performed when
@@ -155,7 +149,7 @@ PKG_PRE_REMOVE="{
     #we must redirect the .npm and .node-gyp to another place, due to memory limitations
     #user root in /share/homes
     SROOT_DIR=$(/share/homes/root)
-    if [ ! -z "${ROOT_DIR}" ]; then
+    if [ ! -z "${SROOT_DIR}" ]; then
           $CMD_ECHO "Creating /root in /share/homes ..."
 	  fi
     cd /share/homes
@@ -182,7 +176,7 @@ PKG_PRE_REMOVE="{
     npm install iobroker.admin
     
     #change port from 8081 to 8085 for admin page
-    $CMD_AWK 
+    $CMD_SED -i 's/8082/8085/g' {SYS_QPKG_DIR}/node_modules/iobroker.admin/admin/index.html
     $CMD_ECHO "iobroker admin port changed to 8085"
 
 }
