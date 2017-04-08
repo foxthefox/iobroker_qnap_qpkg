@@ -151,23 +151,22 @@ PKG_PRE_REMOVE="{
     SROOT_DIR=$(/share/homes/root)
     if [ ! -z "${SROOT_DIR}" ]; then
           $CMD_ECHO "Creating /root in /share/homes ..."
-	  fi
-    cd /share/homes
-    $CMD_MKDIR root
-    $CMD_MKDIR root/.node-gyp
-    $CMD_MKDIR root/.npm
-    $CMD_CHMOD -R 777 /share/homes/root
+	  $CMD_MKDIR ${SROOT_DIR}
+    	  $CMD_MKDIR ${SROOT_DIR}/.node-gyp
+          $CMD_MKDIR ${SROOT_DIR}/.npm
+          $CMD_CHMOD -R 777 ${SROOT_DIR}    
+     fi
+
     
     #link in /root to /share/homes/root
     ROOT_DIR=$(/root)
-    cd /root
-    $CMD_LN -s /share/homes/root/.node-gyp .
-    $CMD_LN -s /share/homes/root/.npm .
+    $CMD_LN -s ${SROOT_DIR}/.node-gyp ${ROOT_DIR}/.
+    $CMD_LN -s ${SROOT_DIR}/.npm ${ROOT_DIR}/.
 }
 #
 #pkg_install(){
     #install iobroker
-    cd {SYS_QPKG_DIR}
+    cd (${SYS_QPKG_DIR})
     $CMD_ECHO "Installing iobroker ..."
     npm install iobroker
     
@@ -176,7 +175,7 @@ PKG_PRE_REMOVE="{
     npm install iobroker.admin
     
     #change port from 8081 to 8085 for admin page
-    $CMD_SED -i 's/8082/8085/g' {SYS_QPKG_DIR}/node_modules/iobroker.admin/admin/index.html
+    $CMD_SED -i 's/8082/8085/g' ${SYS_QPKG_DIR}/node_modules/iobroker.admin/admin/index.html
     $CMD_ECHO "iobroker admin port changed to 8085"
 
 }
