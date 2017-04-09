@@ -103,26 +103,11 @@
 # Define any package specific operations that shall be performed when
 # the package is removed.
 ######################################################################
-PKG_PRE_REMOVE="{
-    # stop iobroker
-    	IOBROKER_SCRIPT=\$($CMD_GETCFG iobroker $SYS_QPKG_CONF_FIELD_SHELL -f $SYS_QPKG_CONFIG_FILE)
-      if [ ! -z "\$IOBROKER_SCRIPT" -a -x "\$IOBROKER_SCRIPT" ]; then
-        # Check if iobroker is enabled
-        IOBROKER_ENABLED=\$($CMD_GETCFG iobroker $SYS_QPKG_CONF_FIELD_ENABLE -u -d FALSE -f $SYS_QPKG_CONFIG_FILE)
-          if [ "\$IOBROKER_ENABLED" = "TRUE" ]; then
-          # Stop iobroker
-          \$IOBROKER_SCRIPT stop
-        fi
-      fi
-}"
+#PKG_PRE_REMOVE="{
+#}"
 #
-#PKG_MAIN_REMOVE="{
-    #uninstall iobroker
-    if [ ! -z "${SYS_QPKG_DIR}" ]; then
-          $CMD_ECHO "Uninstalling existing iobroker ..."
-		      $CMD_RM -rf ${SYS_QPKG_DIR}/iobroker
-	  fi
-}"
+PKG_MAIN_REMOVE="{
+#}"
 #
 #PKG_POST_REMOVE="{
 #}"
@@ -145,10 +130,10 @@ PKG_PRE_REMOVE="{
 # Define any package specific operations that shall be performed when
 # the package is installed.
 ######################################################################
-#pkg_pre_install(){
+pkg_pre_install(){
     #we must redirect the .npm and .node-gyp to another place, due to memory limitations
     #user root in /share/homes
-    SROOT_DIR=$(/share/homes/root)
+    SROOT_DIR="/share/homes/root"
     if [ ! -z "${SROOT_DIR}" ]; then
           $CMD_ECHO "Creating /root in /share/homes ..."
 	  $CMD_MKDIR ${SROOT_DIR}
@@ -161,7 +146,7 @@ PKG_PRE_REMOVE="{
 
     
     #link in /root to /share/homes/root
-    ROOT_DIR=$(/root)
+    ROOT_DIR="/root"
     if [ ! -z "${SROOT_DIR}/.node-gyp" ]; then
         $CMD_ECHO "Creating symlink for .node-gyp to /share/homes/root ..."
     	$CMD_LN -s ${SROOT_DIR}/.node-gyp ${ROOT_DIR}/.
@@ -177,23 +162,21 @@ PKG_PRE_REMOVE="{
     fi
 }
 #
-#pkg_install(){
+ pkg_install(){
     #install iobroker
     $CMD_ECHO "Installing iobroker ..."
-    npm install iobroker
+    npm install iobroker --unsafe-perm
     
     #install iobroker.admin
     $CMD_ECHO "Installing iobroker admin page ..."
     npm install iobroker.admin
     
     #change port from 8081 to 8085 for admin page
-    $CMD_SED -i 's/8082/8085/g' ${SYS_QPKG_DIR}/node_modules/iobroker.admin/admin/index.html
+    $CMD_SED -i 's/8081/8085/g' ${SYS_QPKG_DIR}/node_modules/iobroker.admin/admin/index.html
     $CMD_ECHO "iobroker admin port changed to 8085"
 
 }
 #
 pkg_post_install(){
-	# Enable the QPKG apckage
-	# SYS_QPKG_SERVICE_ENABLED=TRUE
-}
+#}
 #
