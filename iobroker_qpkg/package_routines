@@ -166,7 +166,6 @@ PKG_PRE_REMOVE="{
 #
 #pkg_install(){
     #install iobroker
-    cd (${SYS_QPKG_DIR})
     $CMD_ECHO "Installing iobroker ..."
     npm install iobroker
     
