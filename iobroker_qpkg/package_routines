@@ -154,14 +154,27 @@ PKG_PRE_REMOVE="{
 	  $CMD_MKDIR ${SROOT_DIR}
     	  $CMD_MKDIR ${SROOT_DIR}/.node-gyp
           $CMD_MKDIR ${SROOT_DIR}/.npm
-          $CMD_CHMOD -R 777 ${SROOT_DIR}    
+          $CMD_CHMOD -R 777 ${SROOT_DIR}
+	  else
+	  # directory or link already there, check what it is and make new
      fi
 
     
     #link in /root to /share/homes/root
     ROOT_DIR=$(/root)
-    $CMD_LN -s ${SROOT_DIR}/.node-gyp ${ROOT_DIR}/.
-    $CMD_LN -s ${SROOT_DIR}/.npm ${ROOT_DIR}/.
+    if [ ! -z "${SROOT_DIR}/.node-gyp" ]; then
+        $CMD_ECHO "Creating symlink for .node-gyp to /share/homes/root ..."
+    	$CMD_LN -s ${SROOT_DIR}/.node-gyp ${ROOT_DIR}/.
+	else
+	# directory or link already there, check what it is and make new
+    fi
+    
+    if [ ! -z "${SROOT_DIR}/.npm" ]; then
+    	$CMD_ECHO "Creating symlink for .npm to /share/homes/root ..."
+    	$CMD_LN -s ${SROOT_DIR}/.npm ${ROOT_DIR}/.
+	else
+	# directory or link already there, check what it is and make new
+    fi
 }
 #
 #pkg_install(){
