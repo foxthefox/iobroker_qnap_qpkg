@@ -149,14 +149,14 @@ pkg_pre_install(){
     ROOT_DIR="/root"
     if [ ! -z "${SROOT_DIR}/.node-gyp" ]; then
         $CMD_ECHO "Creating symlink for .node-gyp to /share/homes/root ..."
-    	$CMD_LN -s ${SROOT_DIR}/.node-gyp ${ROOT_DIR}/.
+    	$CMD_LN -s ${SROOT_DIR}/.node-gyp ${ROOT_DIR}/.node-gyp
 	else
 	# directory or link already there, check what it is and make new
     fi
     
     if [ ! -z "${SROOT_DIR}/.npm" ]; then
     	$CMD_ECHO "Creating symlink for .npm to /share/homes/root ..."
-    	$CMD_LN -s ${SROOT_DIR}/.npm ${ROOT_DIR}/.
+    	$CMD_LN -s ${SROOT_DIR}/.npm ${ROOT_DIR}/.npm
 	else
 	# directory or link already there, check what it is and make new
     fi
