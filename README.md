@@ -18,9 +18,9 @@ Remove the package via ioBroker icon
 after reboot the link from /root/.node-gyp to /share/root/.node-gyp gets lost, which can result in memory problems for the root folder when adapters are installed (and need compilation) and gets announced in the QNAP desktop.
 The link has to be renewed via
 
-´´´javascript
+```javascript
 ln -s /share/homes/root/.node-gyp /root/.node-gyp
-´´´
+```
 
 same for .npm
 
