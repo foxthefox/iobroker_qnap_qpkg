@@ -164,20 +164,27 @@ pkg_pre_install(){
 #
  pkg_install(){
     #install iobroker
+    #change directory
+    #check directory
+    
     $CMD_ECHO "Installing iobroker ..."
     npm install iobroker --unsafe-perm
     
     #install iobroker.admin
-    $CMD_ECHO "Installing iobroker admin page ..."
-    npm install iobroker.admin
+    #$CMD_ECHO "Installing iobroker admin page ..."
+    #npm install iobroker.admin
     
     #change port from 8081 to 8085 for admin page
-    $CMD_SED -i 's/8081/8085/g' ${SYS_QPKG_DIR}/node_modules/iobroker.admin/admin/index.html
+    # $CMD_SED -i 's/8081/8085/g' ${SYS_QPKG_DIR}/node_modules/iobroker.admin/admin/index.html
+    
+    ./iobroker del admin.0
+    ./iobroker add admin --port 8085
     $CMD_ECHO "iobroker admin port changed to 8085"
-    # ./iobroker add admin --port 8085
 
 }
 #
 pkg_post_install(){
-#}
+# maybe deleting the iobroker.sh in /usr/bin
+
+}
 #
