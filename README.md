@@ -3,7 +3,7 @@ ioBroker package for the installation on QNAP NAS
 
 ## installation requirements
 * QTS 4.3.3 firmware (tested on this with TS-453A and 453PRO, may work even on lower version)
-* nodeJS minimum version 4 (to be installed before this package)
+* nodeJS minimum version 8.12 (to be installed before this package)
 
 ## how to install
 1. Download the iobroker_qnap.qpkg
